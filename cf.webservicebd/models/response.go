@@ -62,4 +62,3 @@ func (response *Response) send() {
 	output, _ := json.Marshal(&response)
 	fmt.Fprintf(response.writer, string(output))
 }
-//gg

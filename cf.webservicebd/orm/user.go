@@ -39,4 +39,3 @@ func (this *User) Update() {
 func (this *User) Delete() {
 	db.Delete(this)
 }
-//gg

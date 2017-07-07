@@ -32,5 +32,3 @@ func (this *databaseConfig) url() string {
 func GetUrlDatabase() string {
 	return database.url()
 }
-
-//gg
