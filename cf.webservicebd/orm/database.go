@@ -33,3 +33,4 @@ func DropTables() {
 func Ping() error {
 	return db.DB().Ping()
 }
+//gg
