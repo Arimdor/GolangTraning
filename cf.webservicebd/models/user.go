@@ -1,12 +1,11 @@
 package models
 
-import "errors"
-
 //User es la estructura que contiene los campos del usuario
 type User struct {
-	ID       int    `json:"id"`
+	ID       int64  `json:"id"`
 	Username string `json:"username"`
 	Password string `json:"password"`
+	Email    string `json:"email"`
 }
 
 const userSchema string = `CREATE TABLE users (
@@ -19,41 +18,61 @@ const userSchema string = `CREATE TABLE users (
 
 type Users []User
 
-var users = make(map[int]User)
+func NewUser(username, password, email string) *User {
+	user := &User{Username: username, Password: password, Email: email}
+	return user
+}
 
-func SetDefaultUser() {
-	user := User{ID: 1, Username: "Arimdor", Password: "password123"}
-	users[user.ID] = user
+func (this *User) Save() {
+	if this.ID == 0 {
+		this.instert()
+	} else {
+		this.update()
+	}
+}
+
+func (this *User) instert() {
+	sql := "INSERT users set username=?, password=?, email=?"
+	result, _ := Exec(sql, this.Username, this.Password, this.Email)
+	this.ID, _ = result.LastInsertId()
+}
+
+func (this *User) update() {
+	sql := "UPDATE users SET username=?, password=?, email=?"
+	Exec(sql, this.Username, this.Password, this.Email)
+}
+
+func (this *User) Delete() {
+	sql := "DELETE FROM users where id=?"
+	Exec(sql, this.ID)
+}
+
+func CreateUser(username, password, email string) *User {
+	user := NewUser(username, password, email)
+	user.Save()
+	return user
+}
+
+func GetUser(id int) *User {
+	user := NewUser("", "", "")
+	sql := "SELECT id, username, password, email FROM users WHERE id=?"
+	rows, _ := Query(sql, id)
+	for rows.Next() {
+		rows.Scan(&user.ID, &user.Username, &user.Password, &user.Email)
+	}
+
+	return user
 }
 
 func GetUsers() Users {
-	list := Users{}
-	for _, user := range users {
-		list = append(list, user)
+	sql := "SELECT id, username, password, email FROM users"
+	users := Users{}
+	rows, _ := Query(sql)
+
+	for rows.Next() {
+		user := User{}
+		rows.Scan(&user.ID, &user.Username, &user.Password, &user.Email)
+		users = append(users, user)
 	}
-	return list
-}
-
-func GetUser(userID int) (User, error) {
-	if user, ok := users[userID]; ok {
-		return user, nil
-	}
-	return User{}, errors.New("No se encontro el usuario solicitado")
-}
-
-func SaveUser(user User) User {
-	user.ID = len(users) + 1
-	users[user.ID] = user
-	return user
-}
-
-func UpdateUser(user User, username string, password string) User {
-	user.Username = username
-	user.Password = password
-	users[user.ID] = user
-	return user
-}
-
-func DeleteUser(id int) {
-	delete(users, id)
+	return users
 }

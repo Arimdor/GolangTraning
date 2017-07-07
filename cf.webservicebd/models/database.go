@@ -2,19 +2,16 @@ package models
 
 import "database/sql"
 import "fmt"
-import _ "github.com/go-sql-driver/mysql" //Probar bd
 import "log"
 
+import "../config"
+import _ "github.com/go-sql-driver/mysql" //MySQL Driver
 var db *sql.DB
 
-const username string = "root"
-const password string = ""
-const host string = "localhost"
-const port int = 3306
-const database string = "goweb"
-
 func CreateConnection() {
-	if connection, err := sql.Open("mysql", generateURL()); err != nil {
+	url := config.GetUrlDatabase()
+	fmt.Println(url)
+	if connection, err := sql.Open("mysql", url); err != nil {
 		panic(err)
 	} else {
 		db = connection
@@ -22,25 +19,43 @@ func CreateConnection() {
 }
 
 func CreateTables() {
-	createTable("user", userSchema)
+	createTable("users", userSchema)
 }
 
 func createTable(tableName string, schema string) {
 	if !existTable(tableName) {
-		_, err := db.Exec(schema)
-		if err != nil {
-			log.Println(err)
-		}
+		log.Println("Existe")
+		Exec(schema)
+	} else {
+		truncateTable(tableName)
 	}
+}
+
+func truncateTable(tableName string) {
+	sql := fmt.Sprintf("TRUNCATE %s", tableName)
+	Exec(sql)
 }
 
 func existTable(tableName string) bool {
 	sql := fmt.Sprintf("Show Tables Like '%s'", tableName)
-	rows, err := db.Query(sql)
+	rows, _ := Query(sql)
+	return rows.Next()
+}
+
+func Exec(query string, args ...interface{}) (sql.Result, error) {
+	result, err := db.Exec(query, args...)
 	if err != nil {
 		log.Println(err)
 	}
-	return rows.Next()
+	return result, err
+}
+
+func Query(query string, args ...interface{}) (*sql.Rows, error) {
+	rows, err := db.Query(query, args...)
+	if err := db.Ping(); err != nil {
+		panic(err)
+	}
+	return rows, err
 }
 
 func CloseConnection() {
@@ -51,8 +66,4 @@ func Ping() {
 	if err := db.Ping(); err != nil {
 		panic(err)
 	}
-}
-
-func generateURL() string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8", username, password, host, port, database)
 }

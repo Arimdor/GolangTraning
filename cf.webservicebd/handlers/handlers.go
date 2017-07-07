@@ -7,12 +7,14 @@ import (
 	"strconv"
 
 	"../models"
+	"../orm"
 	"github.com/gorilla/mux"
 )
 
 // GetUsers devuelve todos los usuarios
 func GetUsers(w http.ResponseWriter, r *http.Request) {
-	models.SendData(w, models.GetUsers())
+	var users orm.Users
+	models.SendData(w, users.FindAll())
 }
 
 // GetUser devuelve un usuario mediante el ID
