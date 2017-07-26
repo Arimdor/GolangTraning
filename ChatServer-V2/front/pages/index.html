@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="/js/script.js"></script>
+</head>
+
+<body>
+    <div id="container_chat" class="col-md-8 col-md-offset-2">
+        <div id="chatzone" class="">
+            <textarea type="text" rows="20" class="form-control" id="chat_area" readonly="true"></textarea>
+        </div>
+        <form id="form_message" class="form-group">
+            <div class="col-md-10" style="padding: 0px;"><input type="text" class="form-control" id="msg" name="msg" autofocus="true"></div>
+            <input type="submit" class="btn btn-primary col-md-2" id="send" value="Enviar">
+        </form>
+    </div>
+</body>
+
+</html>

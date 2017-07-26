@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="/js/script.js"></script>
+</head>
+
+<body>
+    <div id="container" class="container-fluid">
+        <div id="registro" class="row">
+            <form id="form_registro" class="form-group">
+                <input class="form-control" type="text" name="username" value="" placeholder="Username">
+                <input type="submit" value="Ingresar" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+    <div id="container_chat" class="container-fluid">
+        <div class="chat">
+            <div id="chatzone">
+                <textarea type="text" rows="20" class="form-control" id="chat_area" name="" value="" readonly="true">
+                    </textarea>
+                <form id="form_message" class="form-group">
+                    <input type="text" class="form-control" id="msg" name="msg" autofocus="true">
+                    <input type="submit" class="btn btn-primary" id="send" value="Enviar">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

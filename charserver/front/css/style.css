@@ -1,0 +1,40 @@
+body {
+    background-image: url(/img/backgroundimg.jpg);
+    background-size: cover;
+}
+
+#container {}
+
+#registro {
+    background-color: #eee;
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.40) 0%, rgba(229, 229, 229, 1) 100%);
+    width: 25%;
+    margin: 0 auto;
+    text-align: center;
+    padding-bottom: 2em;
+    padding-top: 2em;
+    margin-top: 12%;
+    min-width: 200px;
+}
+
+#form_registro {
+    margin: 0px auto !important;
+}
+
+#registro input[type="text"] {
+    width: 75%;
+    margin: 0 auto;
+}
+
+#registro input[type="submit"] {
+    margin: 0 auto;
+    margin-top: 0.7em;
+    width: 75%;
+}
+
+#container_chat {
+    display: none;
+    margin-top: 10%;
+}
+
+textarea {}

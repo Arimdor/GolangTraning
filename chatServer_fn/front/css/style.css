@@ -1,0 +1,19 @@
+body {
+    background-image: url(/img/backgroundimg.jpg);
+    background-size: cover;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+#container {}
+
+#container_chat {
+    margin-top: 10%;
+}
+
+#registro {
+    display: inline-block;
+    vertical-align: middle;
+}

@@ -2,15 +2,13 @@ package models
 
 import "database/sql"
 import "fmt"
-import "log"
 
 import "../config"
 import _ "github.com/go-sql-driver/mysql" //MySQL Driver
 var db *sql.DB
 
-func CreateConnection() {
+func OpenConnection() {
 	url := config.GetUrlDatabase()
-	fmt.Println(url)
 	if connection, err := sql.Open("mysql", url); err != nil {
 		panic(err)
 	} else {
@@ -18,13 +16,39 @@ func CreateConnection() {
 	}
 }
 
-func CreateTables() {
-	createTable("users", userSchema)
+func CloseConnection() {
+	db.Close()
 }
+
+func Ping() {
+	if err := db.Ping(); err != nil {
+		panic(err)
+	}
+}
+
+func Exec(query string, args ...interface{}) (sql.Result, error) {
+	result, err := db.Exec(query, args...)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return result, err
+}
+
+func Query(query string, args ...interface{}) (*sql.Rows, error) {
+	rows, err := db.Query(query, args...)
+	if err := db.Ping(); err != nil {
+		panic(err)
+	}
+	return rows, err
+}
+
+// func CreateTables() {
+// 	createTable("users", userSchema)
+// }
 
 func createTable(tableName string, schema string) {
 	if !existTable(tableName) {
-		log.Println("Existe")
+		fmt.Println("Existe")
 		Exec(schema)
 	} else {
 		truncateTable(tableName)
@@ -41,30 +65,3 @@ func existTable(tableName string) bool {
 	rows, _ := Query(sql)
 	return rows.Next()
 }
-
-func Exec(query string, args ...interface{}) (sql.Result, error) {
-	result, err := db.Exec(query, args...)
-	if err != nil {
-		log.Println(err)
-	}
-	return result, err
-}
-
-func Query(query string, args ...interface{}) (*sql.Rows, error) {
-	rows, err := db.Query(query, args...)
-	if err := db.Ping(); err != nil {
-		panic(err)
-	}
-	return rows, err
-}
-
-func CloseConnection() {
-	db.Close()
-}
-
-func Ping() {
-	if err := db.Ping(); err != nil {
-		panic(err)
-	}
-}
-

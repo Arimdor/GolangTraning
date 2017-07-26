@@ -18,11 +18,11 @@ var database *databaseConfig
 
 func init() {
 	database = &databaseConfig{}
-	database.username = gonv.GetStringEnv("DBUSER", "root")
-	database.password = gonv.GetStringEnv("DBPASSWORD", "")
-	database.host = gonv.GetStringEnv("DBHOST", "localhost")
+	database.username = gonv.GetStringEnv("DBUSER", "nrk")
+	database.password = gonv.GetStringEnv("DBPASSWORD", "nrk227")
+	database.host = gonv.GetStringEnv("DBHOST", "13.59.36.111")
 	database.port = gonv.GetIntEnv("DBPORT", 3306)
-	database.database = gonv.GetStringEnv("DB", "goweb")
+	database.database = gonv.GetStringEnv("DB", "restaurante")
 }
 
 func (this *databaseConfig) url() string {
